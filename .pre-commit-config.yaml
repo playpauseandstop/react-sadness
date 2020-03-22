@@ -1,0 +1,39 @@
+exclude: ^.*/vendor/.*|.*\.svg$
+minimum_pre_commit_version: "1.17.0"
+repos:
+  - repo: "https://github.com/prettier/prettier"
+    rev: "1.19.1"
+    hooks:
+      - id: "prettier"
+        name: "Format code (prettier)"
+        exclude: ^api/templates/.*$
+
+  - repo: "https://github.com/pre-commit/pre-commit-hooks"
+    rev: "v2.5.0"
+    hooks:
+      - id: "end-of-file-fixer"
+      - id: "trailing-whitespace"
+      - id: "check-json"
+      - id: "check-toml"
+      - id: "check-yaml"
+
+  - repo: "https://github.com/pre-commit/mirrors-eslint"
+    rev: "v6.8.0"
+    hooks:
+      - id: "eslint"
+        name: "Lint code (eslint)"
+        args: ["--fix"]
+        additional_dependencies:
+          - "babel-eslint@10.1.0"
+          - "eslint@6.8.0"
+          - "eslint-config-prettier@6.10.0"
+          - "eslint-config-standard@14.1.0"
+          - "eslint-import-resolver-parcel@1.10.4"
+          - "eslint-plugin-import@2.20.1"
+          - "eslint-plugin-node@11.0.0"
+          - "eslint-plugin-prettier@3.1.2"
+          - "eslint-plugin-promise@4.2.1"
+          - "eslint-plugin-react@7.19.0"
+          - "eslint-plugin-react-hooks@2.5.0"
+          - "eslint-plugin-standard@4.0.1"
+          - "prettier@1.19.1"

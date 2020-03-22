@@ -1,0 +1,45 @@
+{
+  "name": "react-sadness",
+  "version": "1.0.0-alpha.0",
+  "description": "Set of components and utilities to request API data for React applications.",
+  "scripts": {
+    "example": "parcel --no-autoinstall serve"
+  },
+  "files": [
+    "lib/",
+    "src/"
+  ],
+  "main": "lib/index.js",
+  "module": "src/index.js",
+  "alias": {
+    "react-sadness": "./src"
+  },
+  "dependencies": {
+    "axios": "^0.19.0",
+    "immutable": "^4.0.0-rc.12",
+    "prop-types": "^15.7.2",
+    "qs": "^6.9.1",
+    "react": "^16.13.0",
+    "react-dom": "^16.13.0"
+  },
+  "devDependencies": {
+    "@babel/core": "^7.9.0",
+    "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "parcel-bundler": "^1.12.4"
+  },
+  "author": "Igor Davydenko <iam@igordavydenko.com> (http://igordavydenko.com/)",
+  "license": "BSD-3-Clause",
+  "homepage": "https://github.com/playpauseandstop/react-sadness#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/playpauseandstop/react-sadness.git"
+  },
+  "bugs": {
+    "url": "https://github.com/playpauseandstop/react-sadness/issues"
+  },
+  "keywords": [
+    "react",
+    "api",
+    "axios"
+  ]
+}

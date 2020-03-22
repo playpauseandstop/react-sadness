@@ -1,0 +1,7 @@
+{
+  "test": "^(.*\\.(css|html|js|svg))$",
+  "threshold": 10240,
+  "brotli": {
+    "enabled": false
+  }
+}
