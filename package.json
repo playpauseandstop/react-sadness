@@ -5,14 +5,9 @@
   "scripts": {
     "example": "parcel --no-autoinstall serve"
   },
-  "files": [
-    "lib/",
-    "src/"
-  ],
-  "main": "lib/index.js",
-  "module": "src/index.js",
+  "main": "src/index.js",
   "alias": {
-    "react-sadness": "./src"
+    "react-sadness": "./src/"
   },
   "dependencies": {
     "axios": "^0.19.0",
