@@ -23,5 +23,8 @@ sketch
 .cache/
 dist/
 
+# Publish
+lib/
+
 # Makefile artifacts
 .install

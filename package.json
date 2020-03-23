@@ -1,14 +1,18 @@
 {
   "name": "react-sadness",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "useRequest hook & set of components for requesting API data within React applications",
   "scripts": {
-    "example": "parcel --no-autoinstall serve"
+    "example": "parcel --no-autoinstall serve",
+    "postpublish": "rm -rf lib/",
+    "prepublishOnly": "babel src/ -d lib/ --compact true --delete-dir-on-start --ignore \"src/**/*.test.js\" --minified --no-comments"
   },
-  "main": "src/index.js",
-  "alias": {
-    "react-sadness": "./src/"
-  },
+  "files": [
+    "lib/",
+    "src/"
+  ],
+  "main": "lib/index.js",
+  "source": "src/index.js",
   "dependencies": {
     "axios": "^0.19.0",
     "immutable": "^4.0.0-rc.12",
@@ -18,8 +22,11 @@
     "react-dom": "^16.13.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
+    "@babel/preset-env": "^7.9.0",
+    "@babel/preset-react": "^7.9.1",
     "parcel-bundler": "^1.12.4"
   },
   "author": "Igor Davydenko <iam@igordavydenko.com> (http://igordavydenko.com/)",
@@ -36,5 +43,8 @@
     "react",
     "api",
     "axios"
-  ]
+  ],
+  "alias": {
+    "react-sadness": "./src/"
+  }
 }
