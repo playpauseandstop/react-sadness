@@ -1,7 +1,7 @@
 {
   "name": "react-sadness",
   "version": "1.0.0-alpha.0",
-  "description": "Set of components and utilities to request API data for React applications.",
+  "description": "useRequest hook & set of components for requesting API data within React applications",
   "scripts": {
     "example": "parcel --no-autoinstall serve"
   },
