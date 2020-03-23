@@ -72,6 +72,5 @@ export const loadCachedResponseData = (
 export const triggerReadyEvent = ({ isTriggerReadyEvent, readyEvent }) => {
   if (isTriggerReadyEvent) {
     document.dispatchEvent(new Event(readyEvent));
-    console.info("Triggered prerender event");
   }
 };
