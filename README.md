@@ -1,6 +1,6 @@
 # react-sadness
 
-Set of components and utilities for requesting API data within React
+`useRequest` hook & set of components for requesting API data within React
 applications.
 
 - Built on top of [axios](https://github.com/axios/axios)
@@ -69,11 +69,11 @@ plugin.
 import { SadnessReady } from "react-sadness";
 
 const App = () => (
-  {# Ready event will trigger after both inner requests will done #}
+  {/* Ready event will trigger after both child requests will done */}
   <SadnessReady>
-    {# Request projects from API #}
+    {/* Request projects from API */}
     <Projects />
-    {# Request talks from API #}
+    {/* Request talks from API */}
     <Talks />
   </SadnessReady>
 )
