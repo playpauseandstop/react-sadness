@@ -5,7 +5,7 @@ repos:
     rev: "1.19.1"
     hooks:
       - id: "prettier"
-        name: "Format code (prettier)"
+        name: "Format UI code (prettier)"
         exclude: ^api/templates/.*$
 
   - repo: "https://github.com/pre-commit/pre-commit-hooks"
@@ -21,14 +21,13 @@ repos:
     rev: "v6.8.0"
     hooks:
       - id: "eslint"
-        name: "Lint code (eslint)"
+        name: "Lint UI code (eslint)"
         args: ["--fix"]
         additional_dependencies:
           - "babel-eslint@10.1.0"
           - "eslint@6.8.0"
           - "eslint-config-prettier@6.10.0"
           - "eslint-config-standard@14.1.0"
-          - "eslint-import-resolver-parcel@1.10.4"
           - "eslint-plugin-import@2.20.1"
           - "eslint-plugin-node@11.0.0"
           - "eslint-plugin-prettier@3.1.2"

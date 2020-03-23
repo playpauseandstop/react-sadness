@@ -6,6 +6,8 @@ DIST_DIR ?= ./dist
 NPM ?= npm
 PRE_COMMIT ?= pre-commit
 
+all: install
+
 clean:
 	rm -rf $(CACHE_DIR)/ $(DIST_DIR)/
 

@@ -1,5 +1,5 @@
 import { createContext } from "react";
 
-import { Context } from "./records/Context";
+import { ContextRecord } from "./records/Context";
 
-export const SadnessContext = createContext(new Context());
+export const SadnessContext = createContext(new ContextRecord());

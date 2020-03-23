@@ -1,16 +1,18 @@
 import I from "immutable";
 
-export const ClassNames = new I.Record(
+import { DEFAULT_AXIOS } from "../constants";
+
+export const ClassNamesRecord = new I.Record(
   {
     error: "text-danger",
     errorDetail: "my-3",
     emptyData: "text-info",
     loading: "text-muted"
   },
-  "ReactSadnessClassNames"
+  "ReactSadnessClassNamesRecord"
 );
 
-export const Messages = new I.Record(
+export const MessagesRecord = new I.Record(
   {
     error: "Error",
     emptyData: "API request respond with empty data.",
@@ -18,17 +20,17 @@ export const Messages = new I.Record(
     networkError:
       "Unable to connect to API. Please ensure that API is up and is ready to receive requests from UI (CORS Headers is set)."
   },
-  "ReactSadnessMessages"
+  "ReactSadnessMessagesRecord"
 );
 
-export const Context = new I.Record(
+export const ContextRecord = new I.Record(
   {
     axios: null,
     cachedResponsesContainerId: "react-sadness-cache",
-    classNames: new ClassNames(),
+    classNames: new ClassNamesRecord(),
     isCacheResponses: true,
     isTriggerReadyEvent: true,
-    messages: new Messages(),
+    messages: new MessagesRecord(),
     onErrorRequest: () => {},
     onStartRequest: () => {},
     onSuccessRequest: () => {},
@@ -49,13 +51,46 @@ export const filterDefined = data => {
   return onlyDefined;
 };
 
-export const toClassNames = data => new ClassNames(filterDefined(data));
+export const prepareContextData = ({
+  axios,
+  cachedResponsesContainerId,
+  emptyDataClassName,
+  emptyDataMessage,
+  errorClassName,
+  errorMessage,
+  isCacheResponses,
+  isTriggerReadyEvent,
+  loadingClassName,
+  loadingMessage,
+  networkErrorMessage,
+  readyEvent
+}) => ({
+  axios: axios || DEFAULT_AXIOS,
+  cachedResponsesContainerId,
+  classNames: {
+    emptyData: emptyDataClassName,
+    error: errorClassName,
+    loading: loadingClassName
+  },
+  isCacheResponses,
+  isTriggerReadyEvent,
+  messages: {
+    emptyData: emptyDataMessage,
+    error: errorMessage,
+    loading: loadingMessage,
+    networkError: networkErrorMessage
+  },
+  readyEvent
+});
 
-export const toMessages = data => new Messages(filterDefined(data));
+export const toClassNamesRecord = data =>
+  new ClassNamesRecord(filterDefined(data));
 
-export const toContext = data =>
-  new Context({
+export const toMessagesRecord = data => new MessagesRecord(filterDefined(data));
+
+export const toContextRecord = data =>
+  new ContextRecord({
     ...filterDefined(data),
-    classNames: toClassNames(data ? data.classNames || {} : {}),
-    messages: toMessages(data ? data.messages || {} : {})
+    classNames: toClassNamesRecord(data ? data.classNames || {} : {}),
+    messages: toMessagesRecord(data ? data.messages || {} : {})
   });

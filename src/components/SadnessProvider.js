@@ -1,44 +1,19 @@
-import axiosLibrary from "axios";
-import PropTypes from "prop-types";
 import React, { useState } from "react";
 
 import { SadnessContext } from "../contexts";
-import { filterDefined, toContext } from "../records/Context";
+import { SadnessContextPropTypes } from "../propTypes";
+import {
+  filterDefined,
+  prepareContextData,
+  toContextRecord
+} from "../records/Context";
 import { cacheResponseData } from "../utils";
 
-const SadnessProvider = ({
-  axios,
-  cachedResponsesContainerId,
-  children,
-  emptyDataClassName,
-  emptyDataMessage,
-  errorClassName,
-  errorMessage,
-  isCacheResponses,
-  isTriggerReadyEvent,
-  loadingClassName,
-  loadingMessage,
-  networkErrorMessage,
-  readyEvent
-}) => {
+const SadnessProvider = ({ children, ...contextProps }) => {
   const [requestsCounter, setRequestsCounter] = useState(0);
 
-  const context = toContext({
-    axios: axios || axiosLibrary.create(),
-    cachedResponsesContainerId,
-    classNames: {
-      emptyData: emptyDataClassName,
-      error: errorClassName,
-      loading: loadingClassName
-    },
-    isCacheResponses,
-    isTriggerReadyEvent,
-    messages: {
-      emptyData: emptyDataMessage,
-      error: errorMessage,
-      loading: loadingMessage,
-      networkError: networkErrorMessage
-    },
+  const context = toContextRecord({
+    ...prepareContextData(contextProps),
     onErrorRequest: () => {
       setRequestsCounter(current => current - 1);
     },
@@ -55,7 +30,6 @@ const SadnessProvider = ({
       }
       setRequestsCounter(current => current - 1);
     },
-    readyEvent,
     requestsCounter
   });
 
@@ -66,20 +40,6 @@ const SadnessProvider = ({
   );
 };
 
-SadnessProvider.propTypes = {
-  axios: PropTypes.func,
-  cachedResponsesContainerId: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  emptyDataClassName: PropTypes.string,
-  emptyDataMessage: PropTypes.string,
-  errorClassName: PropTypes.string,
-  errorMessage: PropTypes.string,
-  isCacheResponses: PropTypes.bool,
-  isTriggerReadyEvent: PropTypes.bool,
-  loadingClassName: PropTypes.string,
-  loadingMessage: PropTypes.string,
-  networkErrorMessage: PropTypes.string,
-  readyEvent: PropTypes.string
-};
+SadnessProvider.propTypes = SadnessContextPropTypes;
 
 export default SadnessProvider;

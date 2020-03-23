@@ -30,10 +30,9 @@
     "react-hooks/rules-of-hooks": "error"
   },
   "settings": {
-    "import/resolver": "parcel",
     "react": {
       "pragma": "React",
-      "version": "16.13.1"
+      "version": "16.12.0"
     }
   }
 }

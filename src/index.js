@@ -4,6 +4,7 @@ export { default as EmptyResponseData } from "./components/EmptyResponseData";
 export { default as ErrorData } from "./components/ErrorData";
 export { default as Loading } from "./components/Loading";
 export { default as Response } from "./components/Response";
+export { default as SadnessConfig } from "./components/SadnessConfig";
 export { default as SadnessProvider } from "./components/SadnessProvider";
 export { default as SadnessReady } from "./components/SadnessReady";
 export * from "./contexts";
