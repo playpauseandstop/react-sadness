@@ -2,9 +2,9 @@ import axiosLibrary from "axios";
 import PropTypes from "prop-types";
 import React, { useState } from "react";
 
-import { ReactSadnessContext } from "../contexts";
-import { toContext } from "../records/Context";
-import { cacheResponseData, triggerPrerenderEvent } from "../utils";
+import { SadnessContext } from "../contexts";
+import { filterDefined, toContext } from "../records/Context";
+import { cacheResponseData } from "../utils";
 
 const SadnessProvider = ({
   axios,
@@ -15,13 +15,13 @@ const SadnessProvider = ({
   errorClassName,
   errorMessage,
   isCacheResponses,
-  isTriggerPrerenderEvent,
+  isTriggerReadyEvent,
   loadingClassName,
   loadingMessage,
   networkErrorMessage,
-  prerenderEvent
+  readyEvent
 }) => {
-  const setRequestsCounter = useState(0)[1];
+  const [requestsCounter, setRequestsCounter] = useState(0);
 
   const context = toContext({
     axios: axios || axiosLibrary.create(),
@@ -32,7 +32,7 @@ const SadnessProvider = ({
       loading: loadingClassName
     },
     isCacheResponses,
-    isTriggerPrerenderEvent,
+    isTriggerReadyEvent,
     messages: {
       emptyData: emptyDataMessage,
       error: errorMessage,
@@ -45,29 +45,24 @@ const SadnessProvider = ({
     onStartRequest: () => {
       setRequestsCounter(current => current + 1);
     },
-    onSuccessRequest: (request, response) => {
+    onSuccessRequest: (request, response, extra) => {
       if (response !== true) {
-        cacheResponseData(request, response, context);
+        cacheResponseData(
+          request,
+          response,
+          context.merge(filterDefined(extra))
+        );
       }
-
-      setRequestsCounter(current => {
-        const nextCounter = current - 1;
-
-        const maybeZero = nextCounter === 0;
-        if (maybeZero) {
-          triggerPrerenderEvent(context);
-        }
-
-        return nextCounter;
-      });
+      setRequestsCounter(current => current - 1);
     },
-    prerenderEvent
+    readyEvent,
+    requestsCounter
   });
 
   return (
-    <ReactSadnessContext.Provider value={context}>
+    <SadnessContext.Provider value={context}>
       {children}
-    </ReactSadnessContext.Provider>
+    </SadnessContext.Provider>
   );
 };
 
@@ -80,11 +75,11 @@ SadnessProvider.propTypes = {
   errorClassName: PropTypes.string,
   errorMessage: PropTypes.string,
   isCacheResponses: PropTypes.bool,
-  isTriggerPrerenderEvent: PropTypes.bool,
+  isTriggerReadyEvent: PropTypes.bool,
   loadingClassName: PropTypes.string,
   loadingMessage: PropTypes.string,
   networkErrorMessage: PropTypes.string,
-  prerenderEvent: PropTypes.string
+  readyEvent: PropTypes.string
 };
 
 export default SadnessProvider;

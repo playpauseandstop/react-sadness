@@ -1,6 +1,6 @@
 import I from "immutable";
 
-import { toAPIRequest } from "./records/API";
+import { toRequestRecord } from "./records/Request";
 
 const REQUEST_ATTR = "value";
 const RESPONSE_DATA_KEY = "responseData";
@@ -50,7 +50,7 @@ export const loadCachedResponseData = (
   }
 
   const dataEl = dataElList.find(item => {
-    const maybeRequest = toAPIRequest(
+    const maybeRequest = toRequestRecord(
       loadJsonData(item.getAttribute(REQUEST_ATTR))
     );
     return maybeRequest.equals(request);
@@ -69,12 +69,9 @@ export const loadCachedResponseData = (
   return maybeData;
 };
 
-export const triggerPrerenderEvent = ({
-  isTriggerPrerenderEvent,
-  prerenderEvent
-}) => {
-  if (isTriggerPrerenderEvent) {
-    document.dispatchEvent(new Event(prerenderEvent));
+export const triggerReadyEvent = ({ isTriggerReadyEvent, readyEvent }) => {
+  if (isTriggerReadyEvent) {
+    document.dispatchEvent(new Event(readyEvent));
     console.info("Triggered prerender event");
   }
 };

@@ -9,7 +9,7 @@ import {
   isLoading,
   mount,
   SadnessProvider,
-  useAPIRequest
+  useRequest
 } from "react-sadness"; // eslint-disable-line import/no-unresolved
 
 const API_URL = "http://localhost:8200/api/";
@@ -20,7 +20,7 @@ const Debug = ({ state, stateVar, url }) => (
   <Fragment>
     <pre>
       <code>
-        const {stateVar} = useAPIRequest(&quot;{url}&quot;)
+        const {stateVar} = useRequest(&quot;{url}&quot;)
       </code>
     </pre>
     <ul>
@@ -51,14 +51,12 @@ Debug.propTypes = {
 };
 
 const Projects = () => {
-  const { state } = useAPIRequest("/projects", {
-    responseDataConverter: toList
-  });
+  const { state } = useRequest("/projects", { responseDataConverter: toList });
   return <Debug state={state} stateVar="projectsState" url="/projects" />;
 };
 
 const Talks = () => {
-  const { state } = useAPIRequest("/talks", { responseDataConverter: toList });
+  const { state } = useRequest("/talks", { responseDataConverter: toList });
   return <Debug state={state} stateVar="talksState" url="/talks" />;
 };
 

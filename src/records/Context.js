@@ -27,17 +27,18 @@ export const Context = new I.Record(
     cachedResponsesContainerId: "react-sadness-cache",
     classNames: new ClassNames(),
     isCacheResponses: true,
-    isTriggerPrerenderEvent: true,
+    isTriggerReadyEvent: true,
     messages: new Messages(),
     onErrorRequest: () => {},
     onStartRequest: () => {},
     onSuccessRequest: () => {},
-    prerenderEvent: "react-sadness-ready"
+    readyEvent: "react-sadness-ready",
+    requestsCounter: 0
   },
   "ReactSadnessContext"
 );
 
-const filterDefined = data => {
+export const filterDefined = data => {
   const onlyDefined = {};
   Object.keys(data).forEach(key => {
     const value = data[key];

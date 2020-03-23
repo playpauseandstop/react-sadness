@@ -33,17 +33,17 @@ Next, to request data from the API anywhere inside of `AppContainer`,
 
 ```jsx
 import I from "immutable";
-import React, { useContext } from "react";
-import { APIResponse, useAPIRequest } from "react-sadness";
+import React from "react";
+import { Response, useRequest } from "react-sadness";
 
 import { toUser } from "../records/User";
 
 const toList = data => new I.List(data.map(toUser));
 
 const Users = () => {
-  const { state } = useAPIRequest("/users", { responseDataConverter: toList });
+  const { state } = useRequest("/users", { responseDataConverter: toList });
   return (
-    <APIResponse state={state}>
+    <Response state={state}>
       {users => (
         <ul>
           {users.map(item => (
@@ -51,7 +51,52 @@ const Users = () => {
           ))}
         </ul>
       )}
-    </APIResponse>
+    </Response>
   );
 };
+```
+
+### Prerendering
+
+**IMPORTANT:** Example below illustrates prerendering data with
+[parcel-plugin-prerender](https://www.npmjs.com/package/parcel-plugin-prerender)
+plugin.
+
+`react-sadness` supports prerendering by triggering `readyEvent` via
+`SadnessReady` HoC.
+
+```jsx
+import { SadnessReady } from "react-sadness";
+
+const App = () => (
+  {# Ready event will trigger after both inner requests will done #}
+  <SadnessReady>
+    {# Request projects from API #}
+    <Projects />
+    {# Request talks from API #}
+    <Talks />
+  </SadnessReady>
+)
+```
+
+Afterwards, you need to setup `parcel-plugin-prerender`
+to wait before `readyEvent`, such as,
+
+```json
+  "prerender": {
+    "rendererConfig": {
+      "renderAfterDocumentEvent": "react-sadness-ready"
+    }
+  }
+```
+
+In case if children nodes does not contain any planned API requests, pass
+`force` prop to `SadnessReady` component to force triggering ready event,
+
+```jsx
+const About = () => (
+  <SadnessReady force>
+    <AboutContent />
+  </SadnessReady>
+);
 ```

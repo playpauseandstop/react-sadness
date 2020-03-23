@@ -1,17 +1,17 @@
 import PropTypes from "prop-types";
-import React, { Fragment, useContext } from "react";
+import React, { Fragment } from "react";
 
-import { ReactSadnessContext } from "../contexts";
-import { APIErrorData } from "../records";
+import useSadnessContext from "../hooks/useSadnessContext";
+import { ErrorDataRecord } from "../records/Request";
 import { isProduction } from "../utils";
 
-const ErrorDetails = ({
+const ErrorData = ({
   children,
   className,
   data: { detail },
   detailClassName
 }) => {
-  const { classNames, messages } = useContext(ReactSadnessContext);
+  const { classNames, messages } = useSadnessContext();
 
   const isNetworkError = detail === "Network Error";
   let errorDetail = detail;
@@ -31,11 +31,11 @@ const ErrorDetails = ({
   );
 };
 
-ErrorDetails.propTypes = {
+ErrorData.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
-  data: PropTypes.instanceOf(APIErrorData).isRequired,
+  data: PropTypes.instanceOf(ErrorDataRecord).isRequired,
   detailClassName: PropTypes.string
 };
 
-export default ErrorDetails;
+export default ErrorData;

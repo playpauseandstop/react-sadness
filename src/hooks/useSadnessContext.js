@@ -1,7 +1,7 @@
 import { useContext } from "react";
 
-import { ReactSadnessContext } from "../contexts";
+import { SadnessContext } from "../contexts";
 
-const useSadnessContext = () => useContext(ReactSadnessContext);
+const useSadnessContext = () => useContext(SadnessContext);
 
 export default useSadnessContext;

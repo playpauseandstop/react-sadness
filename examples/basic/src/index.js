@@ -2,10 +2,11 @@ import axios from "axios";
 import PropTypes from "prop-types";
 import React, { Fragment } from "react";
 import {
-  APIResponse,
   mount,
+  Response,
   SadnessProvider,
-  useAPIRequest
+  SadnessReady,
+  useRequest
 } from "react-sadness"; // eslint-disable-line import/no-unresolved
 
 const API_URL = "http://localhost:8200/api/";
@@ -25,19 +26,19 @@ Project.propTypes = {
 };
 
 const Projects = () => {
-  const { state } = useAPIRequest("/projects");
+  const { response } = useRequest("/projects");
   return (
     <Fragment>
       <h2>Projects</h2>
-      <APIResponse state={state}>
-        {data => (
+      <Response data={response}>
+        {projects => (
           <ul>
-            {data.map(item => (
+            {projects.map(item => (
               <Project data={item} key={item.slug} />
             ))}
           </ul>
         )}
-      </APIResponse>
+      </Response>
     </Fragment>
   );
 };
@@ -60,37 +61,33 @@ Talk.propTypes = {
 };
 
 const Talks = () => {
-  const { state } = useAPIRequest("/talks");
+  const { response } = useRequest("/talks", { isCacheResponse: false });
   return (
     <Fragment>
       <h2>Talks</h2>
-      <APIResponse state={state}>
-        {data => (
+      <Response data={response}>
+        {talks => (
           <ul>
-            {data.map(item => (
+            {talks.map(item => (
               <Talk data={item} key={item.slug} />
             ))}
           </ul>
         )}
-      </APIResponse>
+      </Response>
     </Fragment>
   );
 };
 
 const App = () => (
-  <Fragment>
+  <SadnessReady>
     <Projects />
     <hr />
     <Talks />
-  </Fragment>
+  </SadnessReady>
 );
 
 mount(
-  <SadnessProvider
-    axios={axios.create({ baseURL: API_URL })}
-    isCacheResponses={false}
-    isTriggerPrerenderEvent={false}
-  >
+  <SadnessProvider axios={axios.create({ baseURL: API_URL })}>
     <App />
   </SadnessProvider>,
   document.getElementById("app")

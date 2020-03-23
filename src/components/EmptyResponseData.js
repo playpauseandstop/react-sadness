@@ -3,18 +3,18 @@ import React from "react";
 
 import useSadnessContext from "../hooks/useSadnessContext";
 
-const Loading = ({ children, className }) => {
+const EmptyResponseData = ({ children, className }) => {
   const { classNames, messages } = useSadnessContext();
   return (
-    <div className={className || classNames.loading}>
-      {children || messages.loading}
+    <div className={className || classNames.emptyData}>
+      {children || messages.emptyData}
     </div>
   );
 };
 
-Loading.propTypes = {
+EmptyResponseData.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string
 };
 
-export default Loading;
+export default EmptyResponseData;
