@@ -2,6 +2,12 @@
 
 ## 1.0.0 (In Development)
 
+### 1.0.0-alpha.3 (In Development)
+
+- Provide [storybook](https://react-sadness.now.sh) to show how to use
+  `react-sadness` library
+- Fixes to `onReload` & `onUpdate` callbacks
+
 ### 1.0.0-alpha.2 (2020-03-23)
 
 - Provide ability to override `SadnessProvider` default context values with

@@ -8,10 +8,9 @@ import { prepareContextData, toContextRecord } from "../records/Context";
 const SadnessConfig = ({ children, ...contextProps }) => {
   const defaultContext = useSadnessContext();
 
-  const nextContext = toContextRecord(prepareContextData(contextProps));
   const context = defaultContext
-    ? defaultContext.mergeDeep(nextContext)
-    : nextContext;
+    ? defaultContext.mergeDeep(prepareContextData(contextProps))
+    : toContextRecord(contextProps);
 
   return (
     <SadnessContext.Provider value={context}>

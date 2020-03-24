@@ -64,33 +64,37 @@ export const prepareContextData = ({
   loadingMessage,
   networkErrorMessage,
   readyEvent
-}) => ({
-  axios: axios || DEFAULT_AXIOS,
-  cachedResponsesContainerId,
-  classNames: {
-    emptyData: emptyDataClassName,
-    error: errorClassName,
-    loading: loadingClassName
-  },
-  isCacheResponses,
-  isTriggerReadyEvent,
-  messages: {
-    emptyData: emptyDataMessage,
-    error: errorMessage,
-    loading: loadingMessage,
-    networkError: networkErrorMessage
-  },
-  readyEvent
-});
+}) =>
+  filterDefined({
+    axios,
+    cachedResponsesContainerId,
+    classNames: filterDefined({
+      emptyData: emptyDataClassName,
+      error: errorClassName,
+      loading: loadingClassName
+    }),
+    isCacheResponses,
+    isTriggerReadyEvent,
+    messages: filterDefined({
+      emptyData: emptyDataMessage,
+      error: errorMessage,
+      loading: loadingMessage,
+      networkError: networkErrorMessage
+    }),
+    readyEvent
+  });
 
 export const toClassNamesRecord = data =>
   new ClassNamesRecord(filterDefined(data));
 
 export const toMessagesRecord = data => new MessagesRecord(filterDefined(data));
 
-export const toContextRecord = data =>
-  new ContextRecord({
-    ...filterDefined(data),
-    classNames: toClassNamesRecord(data ? data.classNames || {} : {}),
-    messages: toMessagesRecord(data ? data.messages || {} : {})
+export const toContextRecord = props => {
+  const data = prepareContextData(props);
+  return new ContextRecord({
+    ...data,
+    axios: data.axios || DEFAULT_AXIOS,
+    classNames: toClassNamesRecord(data.classNames),
+    messages: toMessagesRecord(data.messages)
   });
+};

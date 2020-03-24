@@ -1,11 +1,13 @@
 {
   "name": "react-sadness",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "useRequest hook & set of components for requesting API data within React applications",
   "scripts": {
-    "example": "parcel --no-autoinstall serve",
+    "build-storybook": "build-storybook -c .storybook/ -o build/",
+    "now": "now",
     "postpublish": "rm -rf lib/",
-    "prepublishOnly": "babel src/ -d lib/ --compact true --delete-dir-on-start --ignore \"src/**/*.test.js\" --minified --no-comments"
+    "prepublishOnly": "babel src/ -d lib/ --compact true --delete-dir-on-start --ignore \"src/**/*.test.js\" --minified --no-comments",
+    "storybook": "start-storybook -p 6006"
   },
   "files": [
     "lib/",
@@ -25,9 +27,13 @@
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.9.0",
     "@babel/plugin-proposal-class-properties": "^7.8.3",
-    "@babel/preset-env": "^7.9.0",
-    "@babel/preset-react": "^7.9.1",
-    "parcel-bundler": "^1.12.4"
+    "@storybook/addon-actions": "^5.3.17",
+    "@storybook/addon-links": "^5.3.17",
+    "@storybook/addon-storysource": "^5.3.17",
+    "@storybook/addons": "^5.3.17",
+    "@storybook/react": "^5.3.17",
+    "babel-loader": "^8.1.0",
+    "now": "^17.1.1"
   },
   "author": "Igor Davydenko <iam@igordavydenko.com> (http://igordavydenko.com/)",
   "license": "BSD-3-Clause",

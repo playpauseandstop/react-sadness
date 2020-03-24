@@ -100,3 +100,13 @@ const About = () => (
   </SadnessReady>
 );
 ```
+
+## Examples
+
+Run,
+
+```bash
+make run
+```
+
+to start Storybook server at `http://localhost:6006`.

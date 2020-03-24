@@ -11,13 +11,9 @@ all: install
 clean:
 	rm -rf $(CACHE_DIR)/ $(DIST_DIR)/
 
-example: install
-ifeq ($(EXAMPLE),)
-	@echo "ERROR: EXAMPLE env var missing. Usage: make EXAMPLE=basic example"
-	@exit 1
-else
-	$(NPM) run example -- examples/$(EXAMPLE)/pages/index.html -d $(DIST_DIR)/$(EXAMPLE)/ --cache-dir $(CACHE_DIR)/$(EXAMPLE)/ --open
-endif
+deploy: install
+	$(NPM) run build-storybook
+	$(NPM) run now
 
 install: .install
 .install: package.json package-lock.json
@@ -27,3 +23,6 @@ install: .install
 lint: install lint-only
 lint-only:
 	SKIP=$(SKIP) $(PRE_COMMIT) run --all $(HOOK)
+
+run: install
+	$(NPM) run storybook

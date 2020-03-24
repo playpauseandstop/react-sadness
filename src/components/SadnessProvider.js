@@ -2,18 +2,14 @@ import React, { useState } from "react";
 
 import { SadnessContext } from "../contexts";
 import { SadnessContextPropTypes } from "../propTypes";
-import {
-  filterDefined,
-  prepareContextData,
-  toContextRecord
-} from "../records/Context";
+import { filterDefined, toContextRecord } from "../records/Context";
 import { cacheResponseData } from "../utils";
 
 const SadnessProvider = ({ children, ...contextProps }) => {
   const [requestsCounter, setRequestsCounter] = useState(0);
 
   const context = toContextRecord({
-    ...prepareContextData(contextProps),
+    ...contextProps,
     onErrorRequest: () => {
       setRequestsCounter(current => current - 1);
     },
