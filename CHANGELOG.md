@@ -2,11 +2,11 @@
 
 ## 1.0.0 (In Development)
 
-### 1.0.0-alpha.3 (In Development)
+### 1.0.0-alpha.3 (2020-03-24)
 
 - Provide [storybook](https://react-sadness.now.sh) to show how to use
   `react-sadness` library
-- Fixes to `onReload` & `onUpdate` callbacks
+- Fix `onReload` & `onUpdate` callbacks
 
 ### 1.0.0-alpha.2 (2020-03-23)
 
