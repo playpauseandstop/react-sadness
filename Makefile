@@ -1,8 +1,6 @@
 .PHONY: example install lint
 
 # Project vars
-CACHE_DIR ?= ./.cache
-DIST_DIR ?= ./dist
 NPM ?= npm
 PRE_COMMIT ?= pre-commit
 

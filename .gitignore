@@ -19,11 +19,10 @@ sketch
 
 # End of https://www.gitignore.io/api/react
 
-# Parcel Bundler
-.cache/
-dist/
+# Storybook
+build/
 
-# Publish
+# npm publish
 lib/
 
 # Makefile artifacts
