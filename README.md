@@ -103,7 +103,10 @@ const About = () => (
 
 ## Examples
 
-Run,
+Visit [react-sadness.now.sh](https://react-sadness.now.sh) to browse through
+`react-sadness` Storybook.
+
+Or run,
 
 ```bash
 make run
