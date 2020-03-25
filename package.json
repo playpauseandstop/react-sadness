@@ -1,6 +1,6 @@
 {
   "name": "react-sadness",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "description": "useRequest hook & set of components for requesting API data within React applications",
   "scripts": {
     "build-storybook": "build-storybook -c .storybook/ -o build/",

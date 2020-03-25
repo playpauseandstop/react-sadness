@@ -1,5 +1,6 @@
 import { action } from "@storybook/addon-actions";
-import React, { Fragment } from "react";
+import PropTypes from "prop-types";
+import React, { Fragment, useState } from "react";
 
 import ProjectsList from "./components/ProjectsList";
 import { API_URL } from "./settings";
@@ -13,7 +14,51 @@ const FAKE_PROJECTS = [
 ];
 const FAKE_RESPONSE = { data: FAKE_PROJECTS, status: 200 };
 
-const Projects = () => {
+const RequestCallbacks = ({ counter }) => {
+  useRequest(`${API_URL}projects`, {
+    deps: [counter],
+    onErrorResponse: (request, err) => {
+      action("Error Response")(counter, request, err);
+    },
+    onSuccessResponse: (request, response) => {
+      action("Success Response")(counter, request, response);
+    }
+  });
+  return (
+    <p>
+      Check <b>Actions</b> Tab
+    </p>
+  );
+};
+
+RequestCallbacks.propTypes = {
+  counter: PropTypes.number.isRequired
+};
+
+const RequestCallbacksContainer = () => {
+  const [counter, setCounter] = useState(0);
+  return (
+    <Fragment>
+      <h2>Request Callbacks</h2>
+      <p>
+        Click on button to initiate new API request:{" "}
+        <button
+          onClick={evt => {
+            evt.preventDefault();
+            action("Button Clicked")(evt);
+            setCounter(current => current + 1);
+          }}
+          type="button"
+        >
+          Click Me ({counter})
+        </button>
+      </p>
+      <RequestCallbacks counter={counter} />
+    </Fragment>
+  );
+};
+
+const ResponseCallbacks = () => {
   const { response, onReload, onUpdate } = useRequest(`${API_URL}projects`);
   return (
     <Fragment>
@@ -57,11 +102,25 @@ const Projects = () => {
   );
 };
 
-export const App = () => (
+export const RequestCallbacksApp = () => (
   <SadnessProvider>
-    <Projects />
+    <RequestCallbacksContainer />
   </SadnessProvider>
 );
+
+RequestCallbacksApp.story = {
+  name: "Request Callbacks"
+};
+
+export const ResponseCallbacksApp = () => (
+  <SadnessProvider>
+    <ResponseCallbacks />
+  </SadnessProvider>
+);
+
+ResponseCallbacksApp.story = {
+  name: "Response Callbacks"
+};
 
 export default {
   title: "Callbacks"

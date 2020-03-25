@@ -7,7 +7,7 @@ const RESPONSE_DATA_KEY = "responseData";
 
 export const cacheResponseData = (
   request,
-  response,
+  axiosResponse,
   { cachedResponsesContainerId, isCacheResponses }
 ) => {
   if (!isCacheResponses) {
@@ -21,7 +21,7 @@ export const cacheResponseData = (
 
   const dataEl = document.createElement("data");
   dataEl.setAttribute(REQUEST_ATTR, JSON.stringify(request.toJS()));
-  dataEl.dataset[RESPONSE_DATA_KEY] = JSON.stringify(response.data);
+  dataEl.dataset[RESPONSE_DATA_KEY] = JSON.stringify(axiosResponse.data);
 
   el.appendChild(dataEl);
 };

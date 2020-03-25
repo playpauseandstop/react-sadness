@@ -14,59 +14,95 @@ import { loadCachedResponseData } from "../utils";
 
 const EMPTY_RESPONSE = new ResponseRecord();
 
-const useRequest = (
-  url,
-  { isCacheResponse, params, responseDataConverter, ...config } = {}
-) => {
-  const request = toRequestRecord({ ...config, params, url });
+const handleAxiosRequestFactory = ({
+  context,
+  setResponse,
+  emptyResponse,
+  request,
+  props
+}) => ({ isCheckCache = false, isSetEmptyResponseOnStart = false } = {}) => {
+  const { axios, onErrorRequest, onStartRequest, onSuccessRequest } = context;
+  const {
+    isCacheResponse,
+    onErrorResponse,
+    onSuccessResponse,
+    params,
+    responseDataConverter,
+    ...config
+  } = props;
+
+  const extraContext = { isCacheResponses: isCacheResponse };
+
+  onStartRequest();
+
+  if (isSetEmptyResponseOnStart) {
+    setResponse(emptyResponse);
+  }
+
+  if (isCheckCache) {
+    const cachedData = loadCachedResponseData(request, context);
+    if (cachedData) {
+      onSuccessRequest(request, null, extraContext);
+
+      const nextResponse = toSuccessResponseRecord(
+        request,
+        { data: cachedData },
+        responseDataConverter
+      );
+      setResponse(nextResponse);
+
+      if (onSuccessResponse) {
+        onSuccessResponse(request, nextResponse);
+      }
+    }
+  }
+
+  axios
+    .request({ ...config, url: buildFullUrl(request) })
+    .then(axiosResponse => {
+      onSuccessRequest(request, axiosResponse, extraContext);
+
+      const nextResponse = toSuccessResponseRecord(
+        request,
+        axiosResponse,
+        responseDataConverter
+      );
+      setResponse(nextResponse);
+
+      if (onSuccessResponse) {
+        onSuccessResponse(request, nextResponse);
+      }
+    })
+    .catch(axiosErr => {
+      onErrorRequest();
+
+      const nextResponse = toErrorResponseRecord(request, axiosErr);
+      setResponse(nextResponse);
+
+      if (onErrorResponse) {
+        onErrorResponse(request, nextResponse);
+      }
+    });
+};
+
+const useRequest = (url, { deps, ...props } = {}) => {
+  const request = toRequestRecord({ ...props, url });
   const emptyResponse = EMPTY_RESPONSE.set("request", request);
-  const extra = { isCacheResponses: isCacheResponse };
 
   const context = useSadnessContext();
   const [response, setResponse] = useState(emptyResponse);
 
-  const handleAxiosRequest = ({
-    isCheckCache = false,
-    isSetEmptyResponseOnStart = false
-  } = {}) => {
-    const { axios, onErrorRequest, onStartRequest, onSuccessRequest } = context;
-    onStartRequest();
-
-    if (isSetEmptyResponseOnStart) {
-      setResponse(emptyResponse);
-    }
-
-    if (isCheckCache) {
-      const cachedData = loadCachedResponseData(request, context);
-      if (cachedData) {
-        onSuccessRequest(request, true, extra);
-        setResponse(
-          toSuccessResponseRecord(
-            request,
-            { data: cachedData },
-            responseDataConverter
-          )
-        );
-      }
-    }
-
-    axios
-      .request({ ...config, url: buildFullUrl(request) })
-      .then(response => {
-        onSuccessRequest(request, response, extra);
-        setResponse(
-          toSuccessResponseRecord(request, response, responseDataConverter)
-        );
-      })
-      .catch(err => {
-        onErrorRequest();
-        setResponse(toErrorResponseRecord(request, err));
-      });
-  };
+  const handleAxiosRequest = handleAxiosRequestFactory({
+    context,
+    request,
+    setResponse,
+    emptyResponse,
+    props
+  });
 
   useEffect(() => {
     handleAxiosRequest({ isCheckCache: true });
-  }, []);
+  }, deps || []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return new ResponseContext({
     onReload: (isFullReload = false) => {
@@ -82,7 +118,11 @@ const useRequest = (
         setResponse(toErrorResponseRecord(request, { response: nextResponse }));
       } else {
         setResponse(
-          toSuccessResponseRecord(request, nextResponse, responseDataConverter)
+          toSuccessResponseRecord(
+            request,
+            nextResponse,
+            props.responseDataConverter
+          )
         );
       }
     },

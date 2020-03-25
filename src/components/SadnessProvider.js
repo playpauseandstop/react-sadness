@@ -16,11 +16,11 @@ const SadnessProvider = ({ children, ...contextProps }) => {
     onStartRequest: () => {
       setRequestsCounter(current => current + 1);
     },
-    onSuccessRequest: (request, response, extra) => {
-      if (response !== true) {
+    onSuccessRequest: (request, axiosResponse, extra) => {
+      if (axiosResponse !== null) {
         cacheResponseData(
           request,
-          response,
+          axiosResponse,
           context.merge(filterDefined(extra))
         );
       }
