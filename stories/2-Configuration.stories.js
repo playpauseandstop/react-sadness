@@ -11,17 +11,17 @@ const Projects = ({ isCacheResponse }) => {
   const { response } = useRequest("/projects", { isCacheResponse });
   return (
     <Response data={response}>
-      {projects => <ProjectsList data={projects} />}
+      {(projects) => <ProjectsList data={projects} />}
     </Response>
   );
 };
 
 Projects.defaultProps = {
-  isCacheResponse: true
+  isCacheResponse: true,
 };
 
 Projects.propTypes = {
-  isCacheResponse: PropTypes.bool
+  isCacheResponse: PropTypes.bool,
 };
 
 export const App = () => (
@@ -40,5 +40,5 @@ export const App = () => (
 );
 
 export default {
-  title: "Configuration"
+  title: "Configuration",
 };

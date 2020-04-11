@@ -7,7 +7,7 @@ export const ClassNamesRecord = new I.Record(
     error: "text-danger",
     errorDetail: "my-3",
     emptyData: "text-info",
-    loading: "text-muted"
+    loading: "text-muted",
   },
   "ReactSadnessClassNamesRecord"
 );
@@ -18,7 +18,7 @@ export const MessagesRecord = new I.Record(
     emptyData: "API request respond with empty data.",
     loading: "Loading…",
     networkError:
-      "Unable to connect to API. Please ensure that API is up and is ready to receive requests from UI (CORS Headers is set)."
+      "Unable to connect to API. Please ensure that API is up and is ready to receive requests from UI (CORS Headers is set).",
   },
   "ReactSadnessMessagesRecord"
 );
@@ -35,14 +35,14 @@ export const ContextRecord = new I.Record(
     onStartRequest: () => {},
     onSuccessRequest: () => {},
     readyEvent: "react-sadness-ready",
-    requestsCounter: 0
+    requestsCounter: 0,
   },
   "ReactSadnessContext"
 );
 
-export const filterDefined = data => {
+export const filterDefined = (data) => {
   const onlyDefined = {};
-  Object.keys(data).forEach(key => {
+  Object.keys(data).forEach((key) => {
     const value = data[key];
     if (value !== undefined) {
       onlyDefined[key] = value;
@@ -63,7 +63,7 @@ export const prepareContextData = ({
   loadingClassName,
   loadingMessage,
   networkErrorMessage,
-  readyEvent
+  readyEvent,
 }) =>
   filterDefined({
     axios,
@@ -71,7 +71,7 @@ export const prepareContextData = ({
     classNames: filterDefined({
       emptyData: emptyDataClassName,
       error: errorClassName,
-      loading: loadingClassName
+      loading: loadingClassName,
     }),
     isCacheResponses,
     isTriggerReadyEvent,
@@ -79,22 +79,23 @@ export const prepareContextData = ({
       emptyData: emptyDataMessage,
       error: errorMessage,
       loading: loadingMessage,
-      networkError: networkErrorMessage
+      networkError: networkErrorMessage,
     }),
-    readyEvent
+    readyEvent,
   });
 
-export const toClassNamesRecord = data =>
+export const toClassNamesRecord = (data) =>
   new ClassNamesRecord(filterDefined(data));
 
-export const toMessagesRecord = data => new MessagesRecord(filterDefined(data));
+export const toMessagesRecord = (data) =>
+  new MessagesRecord(filterDefined(data));
 
-export const toContextRecord = props => {
+export const toContextRecord = (props) => {
   const data = prepareContextData(props);
   return new ContextRecord({
     ...data,
     axios: data.axios || DEFAULT_AXIOS,
     classNames: toClassNamesRecord(data.classNames),
-    messages: toMessagesRecord(data.messages)
+    messages: toMessagesRecord(data.messages),
   });
 };

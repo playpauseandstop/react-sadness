@@ -2,7 +2,13 @@
 
 ## 1.0.0 (In Development)
 
-### 1.0.0-alpha.4 (In Development)
+### 1.0.0-beta.0 (In Development)
+
+- Fix unconditional rerender `SadnessReady` component
+- Ensure ready event triggered only once
+- Fix caching responses
+
+### 1.0.0-alpha.4 (2020-03-25)
 
 - Provide `onSuccessResponse` & `onErrorResponse` request callbacks
 - Allow to pass `deps` dependencies to inner `useEffect` call

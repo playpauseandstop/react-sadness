@@ -1,0 +1,129 @@
+name: "ci"
+
+on:
+  push:
+    branches: ["master"]
+  pull_request:
+    branches: ["master"]
+
+env:
+  NODE_VERSION: "12.16.2"
+  npm_config_user: "root"
+  PYTHON_VERSION: "3.8"
+
+jobs:
+  dev:
+    name: "Verify package is installed well"
+
+    strategy:
+      matrix:
+        os: ["ubuntu-latest", "macos-latest", "windows-latest"]
+
+    runs-on: "${{ matrix.os }}"
+
+    steps:
+      - uses: "actions/checkout@v2.0.0"
+
+      - name: "Install node.js"
+        uses: "actions/setup-node@v1.4.1"
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+
+      - name: "Cache node_modules"
+        uses: "actions/cache@v1.1.2"
+        with:
+          path: "node_modules"
+          key: "venv-${{ hashFiles('package-lock.json') }}"
+
+      - name: "Install package"
+        run: "npm install"
+
+      - name: "Babelify the source"
+        run: "npm run prepublishOnly"
+
+      - name: "Import package"
+        run: |
+          node -e "require('./lib')"
+
+  test:
+    needs: "dev"
+    name: "Test package"
+
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: "actions/checkout@v2.0.0"
+
+      - name: "Install node.js"
+        uses: "actions/setup-node@v1.4.1"
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+
+      - name: "Cache node_modules"
+        uses: "actions/cache@v1.1.2"
+        with:
+          path: "node_modules"
+          key: "venv-${{ hashFiles('package-lock.json') }}"
+
+      - name: "Install package"
+        run: "npm install"
+
+      - name: "Install Python"
+        uses: "actions/setup-python@v1.2.0"
+        with:
+          python-version: "${{ env.PYTHON_VERSION }}"
+
+      - name: "Cache pre-commit"
+        uses: "actions/cache@v1.1.2"
+        with:
+          path: "~/.cache/pre-commit"
+          key: "pre-commit-${{ matrix.python-version }}-${{ hashFiles('.pre-commit-config.yaml') }}"
+
+      - name: "Run pre-commit"
+        uses: "pre-commit/action@v1.0.1"
+
+  package:
+    needs: "test"
+    name: "Build & deploy package"
+
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - uses: "actions/checkout@v2.0.0"
+
+      - name: "Install node.js"
+        uses: "actions/setup-node@v1.4.1"
+        with:
+          node-version: "${{ env.NODE_VERSION }}"
+
+      - name: "Cache node_modules"
+        uses: "actions/cache@v1.1.2"
+        with:
+          path: "node_modules"
+          key: "venv-${{ hashFiles('package-lock.json') }}"
+
+      - name: "Install package"
+        run: "npm install"
+
+      - name: "Build package"
+        run: "npm build"
+
+      - name: "Publish package"
+        if: "github.event_name == 'push' && startsWith(github.event.ref, 'refs/tags')"
+        run: |
+          set -e
+          if [ ${{ contains(github.event.ref, 'alpha') }} ]; then
+            npm publish --tag=alpha
+          else
+            if [ ${{ contains(github.event.ref, 'beta') }} ]; then
+              npm publish --tag=beta
+            else
+              if [ ${{ contains(github.event.ref, 'rc') }} ]; then
+                npm publish --tag=rc
+              else
+                npm publish
+              fi
+            fi
+          fi
+        env:
+          NPM_AUTH_TOKEN: "${{ secrets.NPM_AUTH_TOKEN }}"

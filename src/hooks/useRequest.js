@@ -8,7 +8,7 @@ import {
   ResponseRecord,
   toErrorResponseRecord,
   toRequestRecord,
-  toSuccessResponseRecord
+  toSuccessResponseRecord,
 } from "../records/Request";
 import { loadCachedResponseData } from "../utils";
 
@@ -19,7 +19,7 @@ const handleAxiosRequestFactory = ({
   setResponse,
   emptyResponse,
   request,
-  props
+  props,
 }) => ({ isCheckCache = false, isSetEmptyResponseOnStart = false } = {}) => {
   const { axios, onErrorRequest, onStartRequest, onSuccessRequest } = context;
   const {
@@ -59,7 +59,7 @@ const handleAxiosRequestFactory = ({
 
   axios
     .request({ ...config, url: buildFullUrl(request) })
-    .then(axiosResponse => {
+    .then((axiosResponse) => {
       onSuccessRequest(request, axiosResponse, extraContext);
 
       const nextResponse = toSuccessResponseRecord(
@@ -73,7 +73,7 @@ const handleAxiosRequestFactory = ({
         onSuccessResponse(request, nextResponse);
       }
     })
-    .catch(axiosErr => {
+    .catch((axiosErr) => {
       onErrorRequest();
 
       const nextResponse = toErrorResponseRecord(request, axiosErr);
@@ -97,7 +97,7 @@ const useRequest = (url, { deps, ...props } = {}) => {
     request,
     setResponse,
     emptyResponse,
-    props
+    props,
   });
 
   useEffect(() => {
@@ -108,7 +108,7 @@ const useRequest = (url, { deps, ...props } = {}) => {
     onReload: (isFullReload = false) => {
       handleAxiosRequest({
         isCheckCache: false,
-        isSetEmptyResponseOnStart: isFullReload
+        isSetEmptyResponseOnStart: isFullReload,
       });
     },
     onUpdate: (nextResponse = null) => {
@@ -126,7 +126,7 @@ const useRequest = (url, { deps, ...props } = {}) => {
         );
       }
     },
-    response
+    response,
   });
 };
 

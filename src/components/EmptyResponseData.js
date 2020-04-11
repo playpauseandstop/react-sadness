@@ -14,7 +14,7 @@ const EmptyResponseData = ({ children, className }) => {
 
 EmptyResponseData.propTypes = {
   children: PropTypes.node,
-  className: PropTypes.string
+  className: PropTypes.string,
 };
 
 export default EmptyResponseData;

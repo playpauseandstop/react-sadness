@@ -17,7 +17,7 @@ const Response = ({
   renderEmptyResponseData,
   renderErrorData,
   renderLoading,
-  renderResponseData
+  renderResponseData,
 }) => {
   if (isLoading(data)) {
     return render({ content: renderLoading(), stage: "renderLoading" });
@@ -26,7 +26,7 @@ const Response = ({
   if (hasError(data)) {
     return render({
       content: renderErrorData(data.errorData),
-      stage: "renderErrorData"
+      stage: "renderErrorData",
     });
   }
 
@@ -34,13 +34,13 @@ const Response = ({
   if (isEmptyResponseDataFunc(responseData)) {
     return render({
       content: renderEmptyResponseData(emptyDataMessage),
-      stage: "renderEmptyResponseData"
+      stage: "renderEmptyResponseData",
     });
   }
 
   return render({
     content: renderResponseData({ children, responseData }),
-    stage: "renderResponseData"
+    stage: "renderResponseData",
   });
 };
 
@@ -68,7 +68,7 @@ Response.defaultProps = {
   },
   renderResponseData: function render({ children, responseData }) {
     return children(responseData);
-  }
+  },
 };
 
 Response.propTypes = {
@@ -80,7 +80,7 @@ Response.propTypes = {
   renderEmptyResponseData: PropTypes.func,
   renderErrorData: PropTypes.func,
   renderLoading: PropTypes.func,
-  renderResponseData: PropTypes.func
+  renderResponseData: PropTypes.func,
 };
 
 export default Response;

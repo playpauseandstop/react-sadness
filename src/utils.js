@@ -28,7 +28,7 @@ export const cacheResponseData = (
 
 export const isProduction = () => process.env.NODE_ENV === "production";
 
-export const loadJsonData = maybeData => {
+export const loadJsonData = (maybeData) => {
   try {
     return JSON.parse(maybeData);
   } catch {
@@ -38,7 +38,8 @@ export const loadJsonData = maybeData => {
 
 export const loadCachedResponseData = (
   request,
-  { cachedResponsesContainerId }
+  { cachedResponsesContainerId },
+  { removeCache = true } = {}
 ) => {
   const dataElList = new I.List(
     Array.prototype.slice.call(
@@ -49,7 +50,7 @@ export const loadCachedResponseData = (
     return null;
   }
 
-  const dataEl = dataElList.find(item => {
+  const dataEl = dataElList.find((item) => {
     const maybeRequest = toRequestRecord(
       loadJsonData(item.getAttribute(REQUEST_ATTR))
     );
@@ -65,7 +66,9 @@ export const loadCachedResponseData = (
     return null;
   }
 
-  dataEl.remove();
+  if (removeCache) {
+    dataEl.remove();
+  }
   return maybeData;
 };
 

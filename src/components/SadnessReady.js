@@ -7,24 +7,30 @@ import { triggerReadyEvent } from "../utils";
 const SadnessReady = ({ children, force }) => {
   const context = useSadnessContext();
   const [isFirstRender, setIsFirstRender] = useState(true);
+  const [isEventFired, setIsEventFired] = useState(false);
 
   useEffect(() => {
     if (force || (!isFirstRender && context.requestsCounter === 0)) {
-      triggerReadyEvent(context);
+      if (!isEventFired) {
+        triggerReadyEvent(context);
+        setIsEventFired(true);
+      }
     }
-    setIsFirstRender(false);
-  }, [context, force, isFirstRender]);
+    if (isFirstRender) {
+      setIsFirstRender(false);
+    }
+  }, [context, force, isEventFired, isFirstRender]);
 
   return children || null;
 };
 
 SadnessReady.defaultProps = {
-  force: false
+  force: false,
 };
 
 SadnessReady.propTypes = {
   children: PropTypes.node,
-  force: PropTypes.bool
+  force: PropTypes.bool,
 };
 
 export default SadnessReady;

@@ -9,7 +9,7 @@ const ErrorData = ({
   children,
   className,
   data: { detail },
-  detailClassName
+  detailClassName,
 }) => {
   const { classNames, messages } = useSadnessContext();
 
@@ -35,7 +35,7 @@ ErrorData.propTypes = {
   children: PropTypes.node,
   className: PropTypes.string,
   data: PropTypes.instanceOf(ErrorDataRecord).isRequired,
-  detailClassName: PropTypes.string
+  detailClassName: PropTypes.string,
 };
 
 export default ErrorData;

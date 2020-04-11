@@ -10,7 +10,7 @@ import {
   hasError,
   ResponseRecord,
   SadnessProvider,
-  useRequest
+  useRequest,
 } from "../src";
 
 const Debug = ({ response }) => (
@@ -35,7 +35,7 @@ const Debug = ({ response }) => (
 );
 
 Debug.propTypes = {
-  response: PropTypes.instanceOf(ResponseRecord).isRequired
+  response: PropTypes.instanceOf(ResponseRecord).isRequired,
 };
 
 const Request = ({ apiUrl, children }) => {
@@ -50,7 +50,7 @@ const Request = ({ apiUrl, children }) => {
 
 Request.propTypes = {
   apiUrl: PropTypes.string.isRequired,
-  children: PropTypes.node
+  children: PropTypes.node,
 };
 
 export const Projects = () => (
@@ -66,5 +66,5 @@ export const Talks = () => (
 );
 
 export default {
-  title: "Functional"
+  title: "Functional",
 };

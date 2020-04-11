@@ -5,7 +5,7 @@ export const ErrorDataRecord = new I.Record(
   {
     detail: null,
     status: null,
-    title: null
+    title: null,
   },
   "ReactSadnessErrorDataRecord"
 );
@@ -14,7 +14,7 @@ export const RequestRecord = new I.Record(
   {
     method: "get",
     params: new I.OrderedMap(),
-    url: null
+    url: null,
   },
   "ReactSadnessRequestRecord"
 );
@@ -24,7 +24,7 @@ export const ResponseRecord = new I.Record(
     data: null,
     errorData: null,
     request: null,
-    status: null
+    status: null,
   },
   "ReactSadnessResponseRecord"
 );
@@ -33,7 +33,7 @@ export const ResponseContext = new I.Record(
   {
     onReload: () => {},
     onUpdate: () => {},
-    response: new ResponseRecord()
+    response: new ResponseRecord(),
   },
   "ReactSadnessResponseContext"
 );
@@ -43,15 +43,16 @@ export const buildFullUrl = ({ url, params }) => {
   return `${url}${queryString}`;
 };
 
-export const hasData = response => (response ? response.data !== null : false);
+export const hasData = (response) =>
+  response ? response.data !== null : false;
 
-export const hasError = response =>
+export const hasError = (response) =>
   response ? response.errorData !== null : false;
 
 export const isEqualRequests = (first, second) =>
   first.request && first.request.equals(second.request);
 
-export const isLoading = response =>
+export const isLoading = (response) =>
   response ? response.status === null : false;
 
 export const toErrorDataRecord = (err, extra = {}) => {
@@ -80,18 +81,18 @@ export const toErrorResponseRecord = (request, err) =>
   new ResponseRecord({
     errorData: toErrorDataRecord(err),
     request,
-    status: false
+    status: false,
   });
 
-export const toRequestRecord = data =>
+export const toRequestRecord = (data) =>
   new RequestRecord({
     ...data,
-    params: new I.OrderedMap(data.params || {})
+    params: new I.OrderedMap(data.params || {}),
   });
 
 export const toSuccessResponseRecord = (request, response, converter) =>
   new ResponseRecord({
     data: converter ? converter(response.data) : response.data,
     request,
-    status: true
+    status: true,
   });

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 
 import { SadnessContext } from "../contexts";
 import { SadnessContextPropTypes } from "../propTypes";
@@ -8,26 +8,29 @@ import { cacheResponseData } from "../utils";
 const SadnessProvider = ({ children, ...contextProps }) => {
   const [requestsCounter, setRequestsCounter] = useState(0);
 
-  const context = toContextRecord({
-    ...contextProps,
-    onErrorRequest: () => {
-      setRequestsCounter(current => current - 1);
-    },
-    onStartRequest: () => {
-      setRequestsCounter(current => current + 1);
-    },
-    onSuccessRequest: (request, axiosResponse, extra) => {
-      if (axiosResponse !== null) {
-        cacheResponseData(
-          request,
-          axiosResponse,
-          context.merge(filterDefined(extra))
-        );
-      }
-      setRequestsCounter(current => current - 1);
-    },
-    requestsCounter
-  });
+  const context = useMemo(
+    () =>
+      toContextRecord(contextProps).merge({
+        onErrorRequest: () => {
+          setRequestsCounter((current) => current - 1);
+        },
+        onStartRequest: () => {
+          setRequestsCounter((current) => current + 1);
+        },
+        onSuccessRequest: (request, axiosResponse, extra) => {
+          if (axiosResponse !== null) {
+            cacheResponseData(
+              request,
+              axiosResponse,
+              context.merge(filterDefined(extra))
+            );
+          }
+          setRequestsCounter((current) => current - 1);
+        },
+        requestsCounter,
+      }),
+    [contextProps, requestsCounter]
+  );
 
   return (
     <SadnessContext.Provider value={context}>

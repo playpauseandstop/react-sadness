@@ -10,7 +10,7 @@ import { Response, SadnessProvider, useRequest } from "../src";
 const FAKE_PROJECTS = [
   { slug: "project-1", title: "Project 1" },
   { slug: "project-2", title: "Project 2" },
-  { slug: "project-3", title: "Project 3" }
+  { slug: "project-3", title: "Project 3" },
 ];
 const FAKE_RESPONSE = { data: FAKE_PROJECTS, status: 200 };
 
@@ -22,7 +22,7 @@ const RequestCallbacks = ({ counter }) => {
     },
     onSuccessResponse: (request, response) => {
       action("Success Response")(counter, request, response);
-    }
+    },
   });
   return (
     <p>
@@ -32,7 +32,7 @@ const RequestCallbacks = ({ counter }) => {
 };
 
 RequestCallbacks.propTypes = {
-  counter: PropTypes.number.isRequired
+  counter: PropTypes.number.isRequired,
 };
 
 const RequestCallbacksContainer = () => {
@@ -43,10 +43,10 @@ const RequestCallbacksContainer = () => {
       <p>
         Click on button to initiate new API request:{" "}
         <button
-          onClick={evt => {
+          onClick={(evt) => {
             evt.preventDefault();
             action("Button Clicked")(evt);
-            setCounter(current => current + 1);
+            setCounter((current) => current + 1);
           }}
           type="button"
         >
@@ -65,7 +65,7 @@ const ResponseCallbacks = () => {
       <h2>
         Projects —{" "}
         <button
-          onClick={evt => {
+          onClick={(evt) => {
             evt.preventDefault();
             action("Reload Data Requested")(evt);
             onReload();
@@ -75,7 +75,7 @@ const ResponseCallbacks = () => {
           Reload Data
         </button>{" "}
         <button
-          onClick={evt => {
+          onClick={(evt) => {
             evt.preventDefault();
             action("Full Reload Data Requested")(evt);
             onReload(true);
@@ -85,7 +85,7 @@ const ResponseCallbacks = () => {
           Full Reload Data
         </button>{" "}
         <button
-          onClick={evt => {
+          onClick={(evt) => {
             evt.preventDefault();
             action("Setting Fake Data")(evt);
             onUpdate(FAKE_RESPONSE);
@@ -96,7 +96,7 @@ const ResponseCallbacks = () => {
         </button>
       </h2>
       <Response data={response}>
-        {projects => <ProjectsList data={projects} />}
+        {(projects) => <ProjectsList data={projects} />}
       </Response>
     </Fragment>
   );
@@ -109,7 +109,7 @@ export const RequestCallbacksApp = () => (
 );
 
 RequestCallbacksApp.story = {
-  name: "Request Callbacks"
+  name: "Request Callbacks",
 };
 
 export const ResponseCallbacksApp = () => (
@@ -119,9 +119,9 @@ export const ResponseCallbacksApp = () => (
 );
 
 ResponseCallbacksApp.story = {
-  name: "Response Callbacks"
+  name: "Response Callbacks",
 };
 
 export default {
-  title: "Callbacks"
+  title: "Callbacks",
 };

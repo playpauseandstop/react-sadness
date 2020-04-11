@@ -13,5 +13,5 @@ export const SadnessContextPropTypes = {
   loadingClassName: PropTypes.string,
   loadingMessage: PropTypes.string,
   networkErrorMessage: PropTypes.string,
-  readyEvent: PropTypes.string
+  readyEvent: PropTypes.string,
 };

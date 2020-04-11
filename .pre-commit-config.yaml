@@ -2,7 +2,7 @@ exclude: ^.*/vendor/.*|.*\.svg$
 minimum_pre_commit_version: "1.17.0"
 repos:
   - repo: "https://github.com/prettier/prettier"
-    rev: "1.19.1"
+    rev: "2.0.4"
     hooks:
       - id: "prettier"
         name: "Format UI code (prettier)"
@@ -26,13 +26,13 @@ repos:
         additional_dependencies:
           - "babel-eslint@10.1.0"
           - "eslint@6.8.0"
-          - "eslint-config-prettier@6.10.0"
-          - "eslint-config-standard@14.1.0"
-          - "eslint-plugin-import@2.20.1"
-          - "eslint-plugin-node@11.0.0"
+          - "eslint-config-prettier@6.10.1"
+          - "eslint-config-standard@14.1.1"
+          - "eslint-plugin-import@2.20.2"
+          - "eslint-plugin-node@11.1.0"
           - "eslint-plugin-prettier@3.1.2"
           - "eslint-plugin-promise@4.2.1"
           - "eslint-plugin-react@7.19.0"
-          - "eslint-plugin-react-hooks@2.5.0"
+          - "eslint-plugin-react-hooks@3.0.0"
           - "eslint-plugin-standard@4.0.1"
-          - "prettier@1.19.1"
+          - "prettier@2.0.4"

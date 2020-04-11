@@ -12,7 +12,7 @@ const Projects = () => {
     <Fragment>
       <h2>Projects</h2>
       <Response data={response}>
-        {projects => <ProjectsList data={projects} />}
+        {(projects) => <ProjectsList data={projects} />}
       </Response>
     </Fragment>
   );
@@ -34,5 +34,5 @@ export const Config = () => (
 );
 
 export default {
-  title: "Basic"
+  title: "Basic",
 };

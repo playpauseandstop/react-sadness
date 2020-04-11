@@ -1,5 +1,11 @@
 # react-sadness
 
+[![CI Workflow](https://github.com/playpauseandstop/react-sadness/workflows/ci/badge.svg)](https://github.com/playpauseandstop/react-sadness/actions?query=workflow%3A%22ci%22)
+[![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white)](https://github.com/pre-commit/pre-commit)
+[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg)](https://github.com/prettier/prettier)
+[![npm version](https://img.shields.io/npm/v/react-sadness)](https://www.npmjs.com/package/react-sadness)
+[![npm license](https://img.shields.io/npm/l/react-sadness)](https://www.npmjs.com/package/react-sadness)
+
 `useRequest` hook & set of components for requesting API data within React
 applications.
 
@@ -38,15 +44,15 @@ import { Response, useRequest } from "react-sadness";
 
 import { toUser } from "../records/User";
 
-const toList = data => new I.List(data.map(toUser));
+const toList = (data) => new I.List(data.map(toUser));
 
 const Users = () => {
   const { state } = useRequest("/users", { responseDataConverter: toList });
   return (
     <Response state={state}>
-      {users => (
+      {(users) => (
         <ul>
-          {users.map(item => (
+          {users.map((item) => (
             <li key={item.id}>{item.username}</li>
           ))}
         </ul>
