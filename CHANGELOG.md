@@ -2,7 +2,7 @@
 
 ## 1.0.0 (In Development)
 
-### 1.0.0-beta.0 (In Development)
+### 1.0.0-beta.0 (2020-04-13)
 
 - Fix unconditional rerender `SadnessReady` component
 - Ensure ready event triggered only once
