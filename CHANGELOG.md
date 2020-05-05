@@ -2,7 +2,7 @@
 
 ## 1.0.0 (In Development)
 
-### 1.0.0-beta.2 (In Development)
+### 1.0.0-beta.2 (2020-05-05)
 
 - Once again fix caching responses for prerendering
 
