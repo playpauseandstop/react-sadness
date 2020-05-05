@@ -14,23 +14,24 @@ import { loadCachedResponseData } from "../utils";
 
 const EMPTY_RESPONSE = new ResponseRecord();
 
-const getInitialResponse = (bag) => {
+const getInitialResponse = ({ isInitialRender, ...bag }) => {
   const { context, emptyResponse, props, request } = bag;
   const { responseDataConverter } = props;
 
-  const cachedData = loadCachedResponseData(request, context);
-  if (cachedData) {
-    return [
-      toSuccessResponseRecord(
-        request,
-        { data: cachedData },
-        responseDataConverter
-      ),
-      true,
-    ];
+  if (!isInitialRender) {
+    return emptyResponse;
   }
 
-  return [emptyResponse, false];
+  const cachedData = loadCachedResponseData(request, context);
+  if (cachedData) {
+    return toSuccessResponseRecord(
+      request,
+      { data: cachedData },
+      responseDataConverter
+    );
+  }
+
+  return emptyResponse;
 };
 
 const handleAxiosRequestFactory = ({ setResponse, ...bag }) => ({
@@ -88,9 +89,16 @@ const useRequest = (url, { deps, ...props } = {}) => {
   const emptyResponse = EMPTY_RESPONSE.set("request", request);
 
   const context = useSadnessContext();
+  const [isInitialRender, setIsInitialRender] = useState(true);
+  useEffect(() => {
+    if (isInitialRender) {
+      setIsInitialRender(false);
+    }
+  }, [isInitialRender]);
 
   const bag = { context, emptyResponse, props, request };
-  const [initialResponse, isFromCache] = getInitialResponse(bag);
+  const initialResponse = getInitialResponse({ ...bag, isInitialRender });
+  const isFromCache = !initialResponse.equals(emptyResponse);
   const [response, setResponse] = useState(initialResponse);
 
   const handleAxiosRequest = handleAxiosRequestFactory({ ...bag, setResponse });
