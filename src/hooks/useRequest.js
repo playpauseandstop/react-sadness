@@ -14,13 +14,29 @@ import { loadCachedResponseData } from "../utils";
 
 const EMPTY_RESPONSE = new ResponseRecord();
 
-const handleAxiosRequestFactory = ({
-  context,
-  setResponse,
-  emptyResponse,
-  request,
-  props,
-}) => ({ isCheckCache = false, isSetEmptyResponseOnStart = false } = {}) => {
+const getInitialResponse = (bag) => {
+  const { context, emptyResponse, props, request } = bag;
+  const { responseDataConverter } = props;
+
+  const cachedData = loadCachedResponseData(request, context);
+  if (cachedData) {
+    return [
+      toSuccessResponseRecord(
+        request,
+        { data: cachedData },
+        responseDataConverter
+      ),
+      true,
+    ];
+  }
+
+  return [emptyResponse, false];
+};
+
+const handleAxiosRequestFactory = ({ setResponse, ...bag }) => ({
+  isSetEmptyResponseOnStart = false,
+} = {}) => {
+  const { context, emptyResponse, props, request } = bag;
   const { axios, onErrorRequest, onStartRequest, onSuccessRequest } = context;
   const {
     isCacheResponse,
@@ -37,24 +53,6 @@ const handleAxiosRequestFactory = ({
 
   if (isSetEmptyResponseOnStart) {
     setResponse(emptyResponse);
-  }
-
-  if (isCheckCache) {
-    const cachedData = loadCachedResponseData(request, context);
-    if (cachedData) {
-      onSuccessRequest(request, null, extraContext);
-
-      const nextResponse = toSuccessResponseRecord(
-        request,
-        { data: cachedData },
-        responseDataConverter
-      );
-      setResponse(nextResponse);
-
-      if (onSuccessResponse) {
-        onSuccessResponse(request, nextResponse);
-      }
-    }
   }
 
   axios
@@ -90,26 +88,31 @@ const useRequest = (url, { deps, ...props } = {}) => {
   const emptyResponse = EMPTY_RESPONSE.set("request", request);
 
   const context = useSadnessContext();
-  const [response, setResponse] = useState(emptyResponse);
 
-  const handleAxiosRequest = handleAxiosRequestFactory({
-    context,
-    request,
-    setResponse,
-    emptyResponse,
-    props,
-  });
+  const bag = { context, emptyResponse, props, request };
+  const [initialResponse, isFromCache] = getInitialResponse(bag);
+  const [response, setResponse] = useState(initialResponse);
 
+  const handleAxiosRequest = handleAxiosRequestFactory({ ...bag, setResponse });
   useEffect(() => {
-    handleAxiosRequest({ isCheckCache: true });
+    if (isFromCache) {
+      const { onStartRequest, onSuccessRequest } = context;
+      const { onSuccessResponse } = props;
+
+      onStartRequest(request);
+      onSuccessRequest(request, null, {});
+
+      if (onSuccessResponse) {
+        onSuccessResponse(request, response);
+      }
+    } else {
+      handleAxiosRequest();
+    }
   }, deps || []); // eslint-disable-line react-hooks/exhaustive-deps
 
   return new ResponseContext({
     onReload: (isFullReload = false) => {
-      handleAxiosRequest({
-        isCheckCache: false,
-        isSetEmptyResponseOnStart: isFullReload,
-      });
+      handleAxiosRequest({ isSetEmptyResponseOnStart: isFullReload });
     },
     onUpdate: (nextResponse = null) => {
       if (!nextResponse) {

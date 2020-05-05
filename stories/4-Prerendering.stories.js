@@ -14,6 +14,13 @@ import {
 } from "../src";
 import { loadCachedResponseData } from "../src/utils";
 
+const CACHE_CONTENT = (
+  <data
+    value='{"method":"get","params":{},"url":"/projects"}'
+    data-response-data='[{"slug":"react-sadness","title":"react-sadness","description":"`useRequest` hook &amp; set of components for requesting API data within\n[React](https://reactjs.org) applications.\n\n- Built on top of [axios](https://github.com/axios/axios)\n- Supports prerendering\n- Provides common components for API needs\n","code":"`index.js`\n\n```javascript\nimport React from \"react\";\nimport { mount, SadnessProvider } from \"react-sadness\";\n\nimport App from \"./App\";\n\nmount(\n  <SadnessProvider>\n    <App />\n  </SadnessProvider>,\n  document.getElementById(\"ui\")\n);\n```\n\n----\n\n`App.js`\n\n```javascript\nimport React from \"react\";\nimport { Response, useRequest } from \"react-sadness\";\n\nconst App = () => {\n  const { response } = useRequest(\"/api/projects\");\n  return (\n    <Response data={response}>\n      {projects => <Projects data={projects} />}\n    </Response>\n  );\n};\n\nexport default App;\n```\n","github":"playpauseandstop/react-sadness","npm":"react-sadness","demo":"https://react-sadness.now.sh"}]'
+  ></data>
+);
+
 const PrerenderState = new I.Record({
   isReady: false,
   content: null,
@@ -39,7 +46,7 @@ const Projects = () => {
   );
 };
 
-export const Prerender = () => {
+const PrerenderContainer = () => {
   const [state, setState] = useState(new PrerenderState());
 
   const readyEventHandler = () => {
@@ -57,12 +64,10 @@ export const Prerender = () => {
     return () => {
       document.removeEventListener("react-sadness-ready", readyEventHandler);
     };
-  });
+  }, []);
 
   return (
     <Fragment>
-      <h1>Prerender Demo</h1>
-
       <h2>Projects</h2>
       <SadnessProvider
         axios={axios.create({ baseURL: API_URL })}
@@ -114,8 +119,46 @@ export const Prerender = () => {
           </pre>
         </dd>
       </dl>
+    </Fragment>
+  );
+};
 
-      <div id="react-sadness-cache" />
+export const Prerender = () => (
+  <Fragment>
+    <h1>Prerender Demo</h1>
+    <p>
+      After content will be loaded from <code>/projects</code> endpoint it will
+      be stored into <code>react-sadness-cache</code> element. Also{" "}
+      <code>react-sadness-ready</code> event triggered after request is
+      finished.
+    </p>
+    <PrerenderContainer />
+    <div id="react-sadness-cache" />
+  </Fragment>
+);
+
+export const CachedContent = () => {
+  const [isCacheReady, setIsCacheReady] = useState(false);
+  useEffect(() => {
+    if (!isCacheReady) {
+      setIsCacheReady(true);
+    }
+  }, [isCacheReady]);
+  return (
+    <Fragment>
+      <h1>Cached Content Demo</h1>
+      <p>
+        Instead of making actual request to <code>/projects</code> endpoint,
+        content will be rendered from <code>react-sadness-cache</code> element.{" "}
+        <code>react-sadness-ready</code> event still triggered after content
+        will be loaded from cache and will be ready to render.
+      </p>
+      <p>
+        After cached content will be used, it will be removed from the tree, so
+        next request to <code>/projects</code> endpoint will run actual request.
+      </p>
+      {isCacheReady ? <PrerenderContainer /> : null}
+      <div id="react-sadness-cache">{CACHE_CONTENT}</div>
     </Fragment>
   );
 };
