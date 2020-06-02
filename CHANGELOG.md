@@ -2,7 +2,7 @@
 
 ## 1.0.0 (In Development)
 
-### 1.0.0-rc.0 (In Development)
+### 1.0.0-rc.0 (2020-06-02)
 
 - Better dependency management for `useRequest` hook: load new API data on
   changing API URL (as well as on `deps` change)
