@@ -8,7 +8,7 @@ on:
     branches: ["master"]
 
 env:
-  NODE_VERSION: "12.16.2"
+  NODE_VERSION: "12.17.0"
   npm_config_user: "root"
   PYTHON_VERSION: "3.8"
 
@@ -78,7 +78,7 @@ jobs:
         uses: "actions/cache@v1.1.2"
         with:
           path: "~/.cache/pre-commit"
-          key: "pre-commit-${{ matrix.python-version }}-${{ hashFiles('.pre-commit-config.yaml') }}"
+          key: "pre-commit-${{ env.PYTHON_VERSION }}-${{ env.NODE_VERSION }}-${{ hashFiles('.pre-commit-config.yaml') }}"
 
       - name: "Run pre-commit"
         uses: "pre-commit/action@v1.0.1"

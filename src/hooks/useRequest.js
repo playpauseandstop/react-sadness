@@ -102,6 +102,7 @@ const useRequest = (url, { deps, ...props } = {}) => {
   const [response, setResponse] = useState(initialResponse);
 
   const handleAxiosRequest = handleAxiosRequestFactory({ ...bag, setResponse });
+  /* eslint-disable react-hooks/exhaustive-deps */
   useEffect(() => {
     if (isFromCache) {
       const { onStartRequest, onSuccessRequest } = context;
@@ -113,10 +114,15 @@ const useRequest = (url, { deps, ...props } = {}) => {
       if (onSuccessResponse) {
         onSuccessResponse(request, response);
       }
-    } else {
-      handleAxiosRequest();
     }
-  }, deps || []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (!isFromCache) {
+      handleAxiosRequest({ isSetEmptyResponseOnStart: !isInitialRender });
+    }
+  }, [url, ...(deps || [])]);
+  /* eslint-enable react-hooks/exhaustive-deps */
 
   return new ResponseContext({
     onReload: (isFullReload = false) => {

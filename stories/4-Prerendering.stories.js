@@ -38,11 +38,23 @@ const loadCacheContent = () =>
   );
 
 const Projects = () => {
-  const { response } = useRequest("/projects");
+  const [counter, setCounter] = useState(0);
+  const { response } = useRequest("/projects", { deps: [counter] });
   return (
-    <Response data={response}>
-      {(projects) => <ProjectsList data={projects} />}
-    </Response>
+    <Fragment>
+      <Response data={response}>
+        {(projects) => <ProjectsList data={projects} />}
+      </Response>
+      <button
+        onClick={(evt) => {
+          evt.preventDefault();
+          setCounter((current) => current + 1);
+        }}
+        type="button"
+      >
+        Increase Counter ({counter})
+      </button>
+    </Fragment>
   );
 };
 

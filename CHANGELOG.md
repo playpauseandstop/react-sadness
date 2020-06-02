@@ -2,6 +2,11 @@
 
 ## 1.0.0 (In Development)
 
+### 1.0.0-rc.0 (In Development)
+
+- Better dependency management for `useRequest` hook: load new API data on
+  changing API URL (as well as on `deps` change)
+
 ### 1.0.0-beta.2 (2020-05-05)
 
 - Once again fix caching responses for prerendering

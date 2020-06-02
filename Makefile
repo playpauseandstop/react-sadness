@@ -1,4 +1,4 @@
-.PHONY: example install lint
+.PHONY: clean example install lint lint-only list-outdated run
 
 # Project vars
 NPM ?= npm
@@ -9,10 +9,6 @@ all: install
 clean:
 	rm -rf $(CACHE_DIR)/ $(DIST_DIR)/
 
-deploy: install
-	$(NPM) run build-storybook
-	$(NPM) run now
-
 install: .install
 .install: package.json package-lock.json
 	$(NPM) install
@@ -21,6 +17,9 @@ install: .install
 lint: install lint-only
 lint-only:
 	SKIP=$(SKIP) $(PRE_COMMIT) run --all $(HOOK)
+
+list-outdated: install
+	$(NPM) outdated
 
 run: install
 	$(NPM) run storybook
