@@ -8,7 +8,7 @@ on:
     branches: ["master"]
 
 env:
-  NODE_VERSION: "12.17.0"
+  NODE_VERSION: "12.18.3"
   npm_config_user: "root"
   PYTHON_VERSION: "3.8"
 
@@ -23,18 +23,18 @@ jobs:
     runs-on: "${{ matrix.os }}"
 
     steps:
-      - uses: "actions/checkout@v2.3.1"
+      - uses: "actions/checkout@v2.3.2"
 
       - name: "Install node.js"
-        uses: "actions/setup-node@v2.1.0"
+        uses: "actions/setup-node@v2.1.1"
         with:
           node-version: "${{ env.NODE_VERSION }}"
 
       - name: "Cache node_modules"
-        uses: "actions/cache@v2.0.0"
+        uses: "actions/cache@v2.1.0"
         with:
           path: "node_modules"
-          key: "venv-${{ hashFiles('package-lock.json') }}"
+          key: "node-modules-${{ hashFiles('package-lock.json') }}"
 
       - name: "Install package"
         run: "npm install"
@@ -47,38 +47,31 @@ jobs:
           node -e "require('./lib')"
 
   test:
-    needs: "dev"
     name: "Test package"
 
     runs-on: "ubuntu-latest"
 
     steps:
-      - uses: "actions/checkout@v2.3.1"
+      - uses: "actions/checkout@v2.3.2"
 
       - name: "Install node.js"
-        uses: "actions/setup-node@v2.1.0"
+        uses: "actions/setup-node@v2.1.1"
         with:
           node-version: "${{ env.NODE_VERSION }}"
 
       - name: "Cache node_modules"
-        uses: "actions/cache@v2.0.0"
+        uses: "actions/cache@v2.1.0"
         with:
           path: "node_modules"
-          key: "venv-${{ hashFiles('package-lock.json') }}"
+          key: "node-modules-${{ hashFiles('package-lock.json') }}"
 
       - name: "Install package"
         run: "npm install"
 
       - name: "Install Python"
-        uses: "actions/setup-python@v2.0.1"
+        uses: "actions/setup-python@v2.1.1"
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
-
-      - name: "Cache pre-commit"
-        uses: "actions/cache@v2.0.0"
-        with:
-          path: "~/.cache/pre-commit"
-          key: "pre-commit-${{ env.PYTHON_VERSION }}-${{ env.NODE_VERSION }}-${{ hashFiles('.pre-commit-config.yaml') }}"
 
       - name: "Run pre-commit"
         uses: "pre-commit/action@v2.0.0"
@@ -90,19 +83,19 @@ jobs:
     runs-on: "ubuntu-latest"
 
     steps:
-      - uses: "actions/checkout@v2.3.1"
+      - uses: "actions/checkout@v2.3.2"
 
       - name: "Install node.js"
-        uses: "actions/setup-node@v2.1.0"
+        uses: "actions/setup-node@v2.1.1"
         with:
           node-version: "${{ env.NODE_VERSION }}"
           registry-url: "https://registry.npmjs.org"
 
       - name: "Cache node_modules"
-        uses: "actions/cache@v2.0.0"
+        uses: "actions/cache@v2.1.0"
         with:
           path: "node_modules"
-          key: "venv-${{ hashFiles('package-lock.json') }}"
+          key: "node-modules-${{ hashFiles('package-lock.json') }}"
 
       - name: "Install package"
         run: "npm install"

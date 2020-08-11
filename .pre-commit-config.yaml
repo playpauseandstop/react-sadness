@@ -12,6 +12,7 @@ repos:
     rev: "2.0.5"
     hooks:
       - id: "prettier"
+        language_version: "12.18.3"
         name: "Format UI code (prettier)"
         exclude: ^\.github/.*|.*/templates/.*$
 
@@ -28,6 +29,7 @@ repos:
     rev: "v7.4.0"
     hooks:
       - id: "eslint"
+        language_version: "12.18.3"
         name: "Lint UI code (eslint)"
         args: ["--fix"]
         additional_dependencies:
