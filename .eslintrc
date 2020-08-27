@@ -18,13 +18,7 @@
       "jsx": true
     }
   },
-  "plugins": [
-    "import",
-    "prettier",
-    "react",
-    "react-hooks",
-    "standard"
-  ],
+  "plugins": ["import", "prettier", "react", "react-hooks", "standard"],
   "rules": {
     "react-hooks/exhaustive-deps": "warn",
     "react-hooks/rules-of-hooks": "error"
