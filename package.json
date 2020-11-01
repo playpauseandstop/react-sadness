@@ -17,7 +17,7 @@
   "main": "lib/index.js",
   "source": "src/index.js",
   "dependencies": {
-    "axios": "^0.20.0",
+    "axios": "^0.21.0",
     "immutable": "^4.0.0-rc.12",
     "prop-types": "^15.7.0",
     "qs": "^6.9.0",
