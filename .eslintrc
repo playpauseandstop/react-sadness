@@ -7,9 +7,7 @@
     "standard",
     "plugin:import/recommended",
     "plugin:react/recommended",
-    "prettier",
-    "prettier/react",
-    "prettier/standard"
+    "prettier"
   ],
   "parser": "babel-eslint",
   "parserOptions": {
@@ -26,7 +24,7 @@
   "settings": {
     "react": {
       "pragma": "React",
-      "version": "16.12.0"
+      "version": "detect"
     }
   }
 }

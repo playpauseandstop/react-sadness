@@ -1,3 +1,7 @@
+defaults:
+  run:
+    shell: "bash"
+
 name: "ci"
 
 on:
@@ -8,9 +12,9 @@ on:
     branches: ["master"]
 
 env:
-  NODE_VERSION: "12.18.3"
+  NODE_VERSION: "14.16.1"
   npm_config_user: "root"
-  PYTHON_VERSION: "3.8"
+  PYTHON_VERSION: "3.9.6"
 
 jobs:
   dev:

@@ -6,8 +6,7 @@
 [![npm version](https://img.shields.io/npm/v/react-sadness)](https://www.npmjs.com/package/react-sadness)
 [![npm license](https://img.shields.io/npm/l/react-sadness)](https://www.npmjs.com/package/react-sadness)
 
-`useRequest` hook & set of components for requesting API data within React
-applications.
+`useRequest` hook & set of components for requesting API data within React applications.
 
 - Built on top of [axios](https://github.com/axios/axios)
 - Supports prerendering
@@ -19,8 +18,7 @@ applications.
 
 ## Quickstart
 
-First, you need to wrap your app container into the `SadnessProvider` & `mount`
-it into the DOM element (instead of `render` or `hydrate`),
+First, you need to wrap your app container into the `SadnessProvider` & `mount` it into the DOM element (instead of `render` or `hydrate`),
 
 ```jsx
 import React from "react";
@@ -64,12 +62,9 @@ const Users = () => {
 
 ### Prerendering
 
-**IMPORTANT:** Example below illustrates prerendering data with
-[parcel-plugin-prerender](https://www.npmjs.com/package/parcel-plugin-prerender)
-plugin.
+**IMPORTANT:** Example below illustrates prerendering data with [parcel-plugin-prerender](https://www.npmjs.com/package/parcel-plugin-prerender) plugin.
 
-`react-sadness` supports prerendering by triggering `readyEvent` via
-`SadnessReady` HoC.
+`react-sadness` supports prerendering by triggering `readyEvent` via `SadnessReady` HoC.
 
 ```jsx
 import { SadnessReady } from "react-sadness";
@@ -85,8 +80,7 @@ const App = () => (
 )
 ```
 
-Afterwards, you need to setup `parcel-plugin-prerender`
-to wait before `readyEvent`, such as,
+Afterwards, you need to setup `parcel-plugin-prerender` to wait before `readyEvent`, such as,
 
 ```json
   "prerender": {
@@ -96,8 +90,7 @@ to wait before `readyEvent`, such as,
   }
 ```
 
-In case if children nodes does not contain any planned API requests, pass
-`force` prop to `SadnessReady` component to force triggering ready event,
+In case if children nodes does not contain any planned API requests, pass `force` prop to `SadnessReady` component to force triggering ready event,
 
 ```jsx
 const About = () => (
@@ -109,8 +102,7 @@ const About = () => (
 
 ## Examples
 
-Visit [react-sadness.now.sh](https://react-sadness.now.sh) to browse through
-`react-sadness` Storybook.
+Visit [react-sadness.now.sh](https://react-sadness.now.sh) to browse through `react-sadness` Storybook.
 
 Or run,
 
