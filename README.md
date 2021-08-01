@@ -16,6 +16,14 @@
 
 - [React](https://reactjs.org) 16.13 or later
 
+## Installation
+
+```bash
+npm install axios react react-dom react-sadness
+```
+
+**IMPORTANT:** You need to install `axios`, `react` & `react-dom` in your project additionally, as they listed as **peer** dependencies to `react-sadness`. Installing just `react-sadness` will not be enough.
+
 ## Quickstart
 
 First, you need to wrap your app container into the `SadnessProvider` & `mount` it into the DOM element (instead of `render` or `hydrate`),
@@ -102,7 +110,7 @@ const About = () => (
 
 ## Examples
 
-Visit [react-sadness.now.sh](https://react-sadness.now.sh) to browse through `react-sadness` Storybook.
+Visit [react-sadness.vercel.app](https://react-sadness.vercel.app) to browse through `react-sadness` Storybook.
 
 Or run,
 
