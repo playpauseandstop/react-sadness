@@ -1,0 +1,2 @@
+[tool.badabump]
+version_type = "semver"
