@@ -34,55 +34,55 @@ const getInitialResponse = ({ isInitialRender, ...bag }) => {
   return emptyResponse;
 };
 
-const handleAxiosRequestFactory = ({ setResponse, ...bag }) => ({
-  isSetEmptyResponseOnStart = false,
-} = {}) => {
-  const { context, emptyResponse, props, request } = bag;
-  const { axios, onErrorRequest, onStartRequest, onSuccessRequest } = context;
-  const {
-    isCacheResponse,
-    onErrorResponse,
-    onSuccessResponse,
-    params,
-    responseDataConverter,
-    ...config
-  } = props;
+const handleAxiosRequestFactory =
+  ({ setResponse, ...bag }) =>
+  ({ isSetEmptyResponseOnStart = false } = {}) => {
+    const { context, emptyResponse, props, request } = bag;
+    const { axios, onErrorRequest, onStartRequest, onSuccessRequest } = context;
+    const {
+      isCacheResponse,
+      onErrorResponse,
+      onSuccessResponse,
+      params,
+      responseDataConverter,
+      ...config
+    } = props;
 
-  const extraContext = { isCacheResponses: isCacheResponse };
+    const extraContext = { isCacheResponses: isCacheResponse };
 
-  onStartRequest();
+    onStartRequest();
 
-  if (isSetEmptyResponseOnStart) {
-    setResponse(emptyResponse);
-  }
+    if (isSetEmptyResponseOnStart) {
+      setResponse(emptyResponse);
+    }
 
-  axios
-    .request({ ...config, url: buildFullUrl(request) })
-    .then((axiosResponse) => {
-      onSuccessRequest(request, axiosResponse, extraContext);
+    axios
+      .request({ ...config, url: buildFullUrl(request) })
+      .then((axiosResponse) => {
+        onSuccessRequest(request, axiosResponse, extraContext);
 
-      const nextResponse = toSuccessResponseRecord(
-        request,
-        axiosResponse,
-        responseDataConverter
-      );
-      setResponse(nextResponse);
+        const nextResponse = toSuccessResponseRecord(
+          request,
+          axiosResponse,
+          responseDataConverter
+        );
+        setResponse(nextResponse);
 
-      if (onSuccessResponse) {
-        onSuccessResponse(request, nextResponse);
-      }
-    })
-    .catch((axiosErr) => {
-      onErrorRequest();
+        if (onSuccessResponse) {
+          onSuccessResponse(request, nextResponse);
+        }
+      })
+      .catch((axiosErr) => {
+        onErrorRequest();
 
-      const nextResponse = toErrorResponseRecord(request, axiosErr);
-      setResponse(nextResponse);
+        const nextResponse = toErrorResponseRecord(request, axiosErr);
+        setResponse(nextResponse);
 
-      if (onErrorResponse) {
-        onErrorResponse(request, nextResponse);
-      }
-    });
-};
+        if (onErrorResponse) {
+          onErrorResponse(request, nextResponse);
+        }
+      });
+  };
 
 const useRequest = (url, { deps, ...props } = {}) => {
   const request = toRequestRecord({ ...props, url });
