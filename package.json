@@ -17,9 +17,9 @@
   "main": "lib/index.js",
   "source": "src/index.js",
   "peerDependencies": {
-    "axios": ">0.21 <1",
-    "react": ">16.13 <18",
-    "react-dom": ">16.13 < 18"
+    "axios": ">=0.21 <1",
+    "react": ">=16.13 <18",
+    "react-dom": ">=16.13 < 18"
   },
   "dependencies": {
     "immutable": "^4.0.0-rc.14",

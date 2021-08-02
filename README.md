@@ -14,6 +14,7 @@
 
 ## Requirements
 
+- [axios](https://github.com/axios/axios) 0.21 or later
 - [React](https://reactjs.org) 16.13 or later
 
 ## Installation
