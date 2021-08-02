@@ -4,6 +4,8 @@
 
 ## 1.0.0-rc.2 (2021-08-02)
 
+Include lower bound supported versions of `axios` and `react` in peer dependencies.
+
 ### Fixes:
 
 - Fix peer dependencies definition (#185)
