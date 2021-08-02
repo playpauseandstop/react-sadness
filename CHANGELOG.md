@@ -2,6 +2,12 @@
 
 ## 1.0.0 (In Development)
 
+## 1.0.0-rc.2 (2021-08-02)
+
+### Fixes:
+
+- Fix peer dependencies definition (#185)
+
 One step closer to first final release. `1.0.0-rc.1` highlights moving `axios`, `react`, and `react-dom` to peer dependencies, as well as various dev improvements for the library infrastructure.
 
 ## 1.0.0-rc.1 (2021-08-02)
