@@ -74,7 +74,7 @@ jobs:
         run: "npm install"
 
       - name: "Install Python"
-        uses: "actions/setup-python@v2.2.2"
+        uses: "actions/setup-python@v3.1.2"
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
 
@@ -149,7 +149,7 @@ jobs:
           git fetch --prune --unshallow
 
       - name: "Install Python"
-        uses: "actions/setup-python@v2.2.2"
+        uses: "actions/setup-python@v3.1.2"
         with:
           python-version: "${{ env.PYTHON_VERSION }}"
 
